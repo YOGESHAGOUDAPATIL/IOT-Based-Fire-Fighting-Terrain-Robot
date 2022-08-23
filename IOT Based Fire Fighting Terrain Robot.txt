@@ -1,0 +1,147 @@
+#include <ESP8266WiFi.h>
+String i;
+WiFiServer server(80);
+void setup()
+{
+i = "";
+Serial.begin(115200);
+pinMode(D0, OUTPUT);
+pinMode(D1, OUTPUT);
+pinMode(D2, OUTPUT);
+pinMode(D3, OUTPUT);
+pinMode(D4, OUTPUT);
+WiFi.disconnect();
+delay(3000);
+WiFi.begin("Redmi","yogesh2222");
+Serial.println("CONNECTING TO WIFI");
+while ((!(WiFi.status() == WL_CONNECTED))){
+delay(200);
+Serial.print(".");
+}
+Serial.println("I AM CONNECTED");
+Serial.println((WiFi.localIP()));
+server.begin();
+}
+void loop()
+{
+WiFiClient client = server.available();
+if (!client) { return; }
+while(!client.available()){ delay(1); }
+i = (client.readStringUntil('\r'));
+i.remove(0, 5);
+i.remove(i.length()-9,9);
+if (i == "FORWARD") {
+digitalWrite(D0,HIGH);
+digitalWrite(D1,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D3,LOW);
+digitalWrite(D4,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("FORWAD");
+Serial.println("FORWAD");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+if (i == "REVERSE") {
+digitalWrite(D1,HIGH);
+digitalWrite(D0,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D3,LOW);
+digitalWrite(D4,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("REVERSE");
+Serial.println("REVERSE");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+if (i == "PUMP") {
+digitalWrite(D2,HIGH);
+digitalWrite(D1,LOW);
+digitalWrite(D0,LOW);
+digitalWrite(D3,LOW);
+digitalWrite(D4,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("PUMP");
+Serial.println("PUMP");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+if (i == "LEFT") {
+digitalWrite(D3,HIGH);
+digitalWrite(D1,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D0,LOW);
+digitalWrite(D4,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("LEFT");
+Serial.println("LEFT");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+if (i == "RIGHT") {
+digitalWrite(D4,HIGH);
+digitalWrite(D0,LOW);
+digitalWrite(D1,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D3,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("RIGHT");
+Serial.println("RIGHT");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+if (i == "STOP") {
+digitalWrite(D0,LOW);
+digitalWrite(D1,LOW);
+digitalWrite(D2,LOW);
+digitalWrite(D3,LOW);
+digitalWrite(D4,LOW);
+client.println("HTTP/1.1 200 OK");
+client.println("Content-Type:
+text/html");
+client.println("");
+client.println("<!DOCTYPE
+HTML>");
+client.println("<html>");
+client.println("STOP");
+Serial.println("STOP");
+client.println("</html>");
+client.stop();
+delay(1);
+}
+}
